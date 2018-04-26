@@ -1,0 +1,31 @@
+version: '3'
+services:
+  wikidb:
+    image: mongo
+    expose:
+      - '27017'
+    command: '--smallfiles --bind_ip wikidb'
+    environment:
+      - 'MONGO_LOG_DIR=/dev/null'
+    volumes:
+      - ./data/mongo:/data/db
+  wikijs:
+    image: dailybruin/wiki
+    build: .
+    entrypoint: [ "node", "server" ]
+    links:
+      - wikidb
+    depends_on:
+      - wikidb
+    ports:
+      - '3000:3000'
+    environment:
+      WIKI_ADMIN_EMAIL: online@media.ucla.edu
+    env_file:
+      - .env
+    volumes:
+      - ./config.yml:/var/wiki/config.yml
+      - ./server/models/user.js:/var/wiki/server/models/user.js
+      - ./server/controllers/auth.js:/var/wiki/server/controllers/auth.js
+      - ./github_ssh_key:/etc/wiki/keys/github_ssh_key
+      - ./assets/images:/var/wiki/assets/images

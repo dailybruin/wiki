@@ -1,0 +1,26 @@
+version: '2'
+volumes:
+  sshkeys:
+    driver: rancher-nfs
+services:
+  wikidb:
+    image: mongo
+    restart: always
+    command: '--smallfiles --bind_ip wikidb'
+    environment:
+      - 'MONGO_LOG_DIR=/dev/null'
+    volumes:
+      - ./data/mongo:/data/db
+  wikijs:
+    image: dailybruin/wiki
+    restart: always
+    entrypoint: [ "node", "server" ]
+    links:
+      - wikidb
+    depends_on:
+      - wikidb
+    environment:
+      WIKI_ADMIN_EMAIL: online@media.ucla.edu
+      HOST: wiki2.dailybruin.com
+    volumes:
+      - sshkeys:/etc/wiki/keys/github_ssh_key
