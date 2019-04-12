@@ -21,6 +21,6 @@ services:
       - wikidb
     environment:
       WIKI_ADMIN_EMAIL: online@media.ucla.edu
-      HOST: wiki2.dailybruin.com
+      HOST: wiki.dailybruin.com
     volumes:
       - sshkeys:/etc/wiki/keys/github_ssh_key
