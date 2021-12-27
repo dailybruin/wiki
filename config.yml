@@ -92,7 +92,7 @@ sessionSecret: $(SESSION_SECRET_KEY)
 # Database Connection String
 # ---------------------------------------------------------------------
 
-db: mongodb://wikidb:27017/wiki
+db: $(MONGO_URL)
 
 # ---------------------------------------------------------------------
 # Git Connection Info
