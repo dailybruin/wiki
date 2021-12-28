@@ -1,4 +1,4 @@
-FROM requarks/wiki:latest
+FROM requarks/wiki:1.0
 
 WORKDIR /var/wiki
 
